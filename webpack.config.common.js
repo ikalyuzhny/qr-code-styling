@@ -1,5 +1,6 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const nodeExternals = require('webpack-node-externals');
 
 const rootPath = path.resolve(__dirname, "./");
 const srcPath = path.resolve(rootPath, "src");
@@ -28,15 +29,12 @@ module.exports = {
         test: /\.ts$/,
         loader: "eslint-loader",
         exclude: /node_modules/
-      },
-      {
-        test: /\.node$/,
-        loader: "node-loader",
-      },
+      }
     ],
   },
   plugins: [new CleanWebpackPlugin()],
   resolve: {
     extensions: [".ts", ".js"]
-  }
+  },
+  externals: [nodeExternals()]
 };
