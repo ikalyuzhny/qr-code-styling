@@ -6,6 +6,7 @@ const srcPath = path.resolve(rootPath, "src");
 const libPath = path.resolve(rootPath, "lib");
 
 module.exports = {
+  target: "node",
   entry: srcPath + "/index.ts",
   output: {
     path: libPath,
@@ -27,8 +28,12 @@ module.exports = {
         test: /\.ts$/,
         loader: "eslint-loader",
         exclude: /node_modules/
-      }
-    ]
+      },
+      {
+        test: /\.node$/,
+        loader: "node-loader",
+      },
+    ],
   },
   plugins: [new CleanWebpackPlugin()],
   resolve: {
