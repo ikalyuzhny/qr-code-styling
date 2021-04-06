@@ -3,7 +3,6 @@
   "version": "1.3.5",
   "description": "Add a style and an image to your QR code",
   "main": "src/index.ts",
-  "types": "src/types/index.ts",
   "files": [
     "src"
   ],
