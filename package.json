@@ -35,8 +35,7 @@
   "scripts": {
     "build": "webpack --mode=production --config webpack.config.build.js",
     "build:dev": "webpack --mode=development --config webpack.config.build.js",
-    "test": "jest",
-    "start": "webpack serve --open --config webpack.config.dev-server.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
