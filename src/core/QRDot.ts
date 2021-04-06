@@ -1,5 +1,6 @@
 import dotTypes from "../constants/dotTypes";
 import { DotType } from "../types";
+import { CanvasRenderingContext2D } from "canvas";
 
 type GetNeighbor = (x: number, y: number) => boolean;
 type DrawArgs = {
@@ -318,12 +319,24 @@ export default class QRDot {
     }
 
     if (!leftNeighbor && !topNeighbor) {
-      this._basicCornerExtraRounded({ x, y, size, context, rotation: -Math.PI / 2 });
+      this._basicCornerExtraRounded({
+        x,
+        y,
+        size,
+        context,
+        rotation: -Math.PI / 2
+      });
       return;
     }
 
     if (!rightNeighbor && !bottomNeighbor) {
-      this._basicCornerExtraRounded({ x, y, size, context, rotation: Math.PI / 2 });
+      this._basicCornerExtraRounded({
+        x,
+        y,
+        size,
+        context,
+        rotation: Math.PI / 2
+      });
       return;
     }
 

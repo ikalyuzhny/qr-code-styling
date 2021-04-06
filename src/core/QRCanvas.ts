@@ -7,6 +7,8 @@ import { RequiredOptions, Gradient } from "./QROptions";
 import gradientTypes from "../constants/gradientTypes";
 import { QRCode } from "../types";
 
+import { Canvas, createCanvas, Image, loadImage, CanvasRenderingContext2D } from "canvas";
+
 type FilterFunction = (i: number, j: number) => boolean;
 
 const squareMask = [
@@ -30,16 +32,14 @@ const dotMask = [
 ];
 
 export default class QRCanvas {
-  _canvas: HTMLCanvasElement;
+  _canvas: Canvas;
   _options: RequiredOptions;
   _qr?: QRCode;
-  _image?: HTMLImageElement;
+  _image?: Image;
 
   //TODO don't pass all options to this class
   constructor(options: RequiredOptions) {
-    this._canvas = document.createElement("canvas");
-    this._canvas.width = options.width;
-    this._canvas.height = options.height;
+    this._canvas = createCanvas(options.width, options.height);
     this._options = options;
   }
 
@@ -55,7 +55,7 @@ export default class QRCanvas {
     return this._canvas.height;
   }
 
-  getCanvas(): HTMLCanvasElement {
+  getCanvas(): Canvas {
     return this._canvas;
   }
 
@@ -123,7 +123,12 @@ export default class QRCanvas {
     this.drawCorners();
 
     if (this._options.image) {
-      this.drawImage({ width: drawImageSize.width, height: drawImageSize.height, count, dotSize });
+      this.drawImage({
+        width: drawImageSize.width,
+        height: drawImageSize.height,
+        count,
+        dotSize
+      });
     }
   }
 
@@ -177,7 +182,10 @@ export default class QRCanvas {
     const dotSize = Math.floor(minSize / count);
     const xBeginning = Math.floor((options.width - count * dotSize) / 2);
     const yBeginning = Math.floor((options.height - count * dotSize) / 2);
-    const dot = new QRDot({ context: canvasContext, type: options.dotsOptions.type });
+    const dot = new QRDot({
+      context: canvasContext,
+      type: options.dotsOptions.type
+    });
 
     canvasContext.beginPath();
 
@@ -259,12 +267,18 @@ export default class QRCanvas {
       const y = yBeginning + row * dotSize * (count - 7);
 
       if (options.cornersSquareOptions?.type) {
-        const cornersSquare = new QRCornerSquare({ context: canvasContext, type: options.cornersSquareOptions?.type });
+        const cornersSquare = new QRCornerSquare({
+          context: canvasContext,
+          type: options.cornersSquareOptions?.type
+        });
 
         canvasContext.beginPath();
         cornersSquare.draw(x, y, cornersSquareSize, rotation);
       } else {
-        const dot = new QRDot({ context: canvasContext, type: options.dotsOptions.type });
+        const dot = new QRDot({
+          context: canvasContext,
+          type: options.dotsOptions.type
+        });
 
         canvasContext.beginPath();
 
@@ -307,12 +321,18 @@ export default class QRCanvas {
       canvasContext.fill("evenodd");
 
       if (options.cornersDotOptions?.type) {
-        const cornersDot = new QRCornerDot({ context: canvasContext, type: options.cornersDotOptions?.type });
+        const cornersDot = new QRCornerDot({
+          context: canvasContext,
+          type: options.cornersDotOptions?.type
+        });
 
         canvasContext.beginPath();
         cornersDot.draw(x + dotSize * 2, y + dotSize * 2, cornersDotSize, rotation);
       } else {
-        const dot = new QRDot({ context: canvasContext, type: options.dotsOptions.type });
+        const dot = new QRDot({
+          context: canvasContext,
+          type: options.dotsOptions.type
+        });
 
         canvasContext.beginPath();
 
@@ -356,25 +376,18 @@ export default class QRCanvas {
     });
   }
 
-  loadImage(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const options = this._options;
-      const image = new Image();
+  async loadImage(): Promise<void> {
+    const options = this._options;
 
-      if (!options.image) {
-        return reject("Image is not defined");
-      }
+    if (!options.image) {
+      throw new Error("Image is not defined");
+    }
 
-      if (typeof options.imageOptions.crossOrigin === "string") {
-        image.crossOrigin = options.imageOptions.crossOrigin;
-      }
+    // if (typeof options.imageOptions.crossOrigin === "string") {
+    //     image.crossOrigin = options.imageOptions.crossOrigin;
+    // }
 
-      this._image = image;
-      image.onload = (): void => {
-        resolve();
-      };
-      image.src = options.image;
-    });
+    this._image = await loadImage(options.image);
   }
 
   drawImage({

@@ -1,5 +1,6 @@
 import cornerSquareTypes from "../constants/cornerSquareTypes";
 import { CornerSquareType } from "../types";
+import { CanvasRenderingContext2D } from "canvas";
 
 type DrawArgs = {
   x: number;
