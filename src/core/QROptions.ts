@@ -81,6 +81,9 @@ export interface RequiredOptions extends Options {
     color: string;
     gradient?: Gradient;
   };
+  canvas?: {
+    isSvg?: boolean;
+  };
 }
 
 const defaultOptions: RequiredOptions = {

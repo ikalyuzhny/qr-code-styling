@@ -39,7 +39,7 @@ export default class QRCanvas {
 
   //TODO don't pass all options to this class
   constructor(options: RequiredOptions) {
-    this._canvas = createCanvas(options.width, options.height);
+    this._canvas = createCanvas(options.width, options.height, options.canvas?.isSvg ? "svg" : undefined);
     this._options = options;
   }
 
