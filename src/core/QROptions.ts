@@ -54,6 +54,9 @@ export type Options = {
     color?: string;
     gradient?: Gradient;
   };
+  canvas?: {
+    isSvg?: boolean;
+  };
 };
 
 export interface RequiredOptions extends Options {
