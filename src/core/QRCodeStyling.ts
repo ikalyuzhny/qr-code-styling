@@ -5,7 +5,7 @@ import defaultOptions, { Options, RequiredOptions } from "./QROptions";
 import sanitizeOptions from "../tools/sanitizeOptions";
 import { QRCode } from "../types";
 import qrcode from "qrcode-generator";
-import { PngConfig } from "canvas";
+import { Canvas, PngConfig } from "canvas";
 
 export default class QRCodeStyling {
   _options: RequiredOptions;
@@ -31,7 +31,15 @@ export default class QRCodeStyling {
     return this;
   }
 
+  public getCanvas(): Canvas | undefined {
+    return this._canvas?.getCanvas();
+  }
+
   toPNGBuffer(options?: PngConfig): Buffer | undefined {
     return this._canvas?.getCanvas().toBuffer("image/png", options);
+  }
+
+  toSVGBuffer(): Buffer | undefined {
+    return this._canvas?.getCanvas().toBuffer();
   }
 }
