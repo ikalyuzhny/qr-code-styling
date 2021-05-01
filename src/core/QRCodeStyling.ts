@@ -40,6 +40,8 @@ export default class QRCodeStyling {
   }
 
   toSVGBuffer(): Buffer | undefined {
-    return this._canvas?.getCanvas().toBuffer();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return this._canvas?.getCanvas().toBuffer("image/svg+xml");
   }
 }
