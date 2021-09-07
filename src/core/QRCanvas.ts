@@ -387,7 +387,11 @@ export default class QRCanvas {
     //     image.crossOrigin = options.imageOptions.crossOrigin;
     // }
 
-    this._image = await loadImage(options.image);
+    const image = await loadImage(options.image);
+    image.height *= 10;
+    image.width *= 10;
+
+    this._image = image;
   }
 
   drawImage({
